@@ -9,9 +9,13 @@
 #include "../inc/UART1.h"
 #include "../inc/SSD1306.h"
 #include "../inc/motor.h"
+#include "../inc/BumpInt.h"
 #include "msp.h"
 #define CR   0x0D
 // image of a Texas Instruments logo
+extern volatile bool        wasInterrupt;
+extern volatile uint16_t        counts;
+extern volatile uint8_t        direction;
 const uint8_t ti[] = {
  0x42, 0x4D, 0xF6, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x76, 0x00, 0x00, 0x00, 0x28, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x00, 0x00,
  0x00, 0x00, 0x80, 0x04, 0x00, 0x00, 0x23, 0x2E, 0x00, 0x00, 0x23, 0x2E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x80,
@@ -124,6 +128,7 @@ void WriteByteData(void){ // called on a SNP Characteristic Write Indication on 
 
 
 int main(void){
+
   volatile int r;
   SSD1306_Init(SSD1306_SWITCHCAPVCC);
   DisableInterrupts();
@@ -131,6 +136,9 @@ int main(void){
   UART0_Init();
   TimerInit();
   Motor_Init();
+  PinInit();
+  BumpInt_Init();
+  TimerInit();
   SSD1306_Init(SSD1306_SWITCHCAPVCC);
   EnableInterrupts();
   UART0_OutString("\n\rApplication Processor - MSP432-CC2650\n\r");
@@ -213,4 +221,5 @@ int main(void){
     AP_BackgroundProcess();  // handle incoming SNP frames
 
   }
+
 }

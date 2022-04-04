@@ -1,4 +1,4 @@
-æ 
+é 
 badssl.com/test/safety-tips/
 04porn.com/
 0552online.com/
@@ -33,7 +33,9 @@
 3dcartstores.com/
 3october.nl/
 3oktober.nl/
-41tube.com/
+41tube.com/
+43sports.io/
+47sports.io/
 4archive.org/
 4service-group.at/
 567live1.com/
@@ -433,7 +435,8 @@ brouae.be/
 bseindia.com/
 bsg-deutschlandfunk.de/
 bt-studienreisen.de/
-btglss.net/
+btglss.net/
+bts-heardle.app/
 bundeswehr-karriere.de/
 bundeswehrkarriere.de/
 bupa-carbar.com.au/
@@ -546,7 +549,8 @@ clari.com/
 clarip.com/
 claris.com/
 classicalpilates-tokyo.com/
-classicalpilatestokyo.com/
+classicalpilatestokyo.com/$
+"cleankitchen-ee.jobs.personio.com/
 clearlogin.com/
 clearwater-analytics.com/
 clearwateranalytics.com/
@@ -717,7 +721,8 @@ depop.com/
 digio.com.br/
 digital-stockmanbank.com/
 digitaloceanspaces.com/
-dim-musicnb.org/
+dim-musicnb.org/
+dino-chita.ru/
 directdb.co.kr/
 directidb.co.kr/
 discord.com/
@@ -1037,7 +1042,9 @@ gen3m.com/
 geniusy.com/
 georgievskaya-lenta.ru/
 gesetze-bayern.de/
-gestion-pixup.ch/
+gestion-pixup.ch/
+get-nuubu.com/
+get-tvidler.com/
 ghezals-genius.com/
 giftcards-just-eat.ch/
 giftcards-just-eat.fr/
@@ -1322,7 +1329,8 @@ imgix.net/
 
 indif.com/
 indoorscience.com/
-indoorsciences.com/
+indoorsciences.com/"
+ industriekultur-mittelhessen.de/
 infinitobag.com/
 infinitobags.com/
 inflate-r.com/
@@ -1751,7 +1759,8 @@ mobiel.de/
 mobileappvalleys.com/
 mobiliar.ch/
 mobiliare.ch/
-mobiliere.ch/
+mobiliere.ch/
+moistomatolog-chita.ru/
 moja-akademija.si/
 mojaakademija.si/
 monash.edu.au/
@@ -1948,7 +1957,8 @@ nyumc.org/
 officecom.co.jp/
 officecom.online/
 officecom.rs/
-officer.com/
+officer.com/
+official-enence.com/
 offres-emploi.ma/
 oficialloja.com/
 oficialoja.com/
@@ -2057,7 +2067,8 @@ perhoj.no/
 peruki-sklep.pl/
 perukikrakow.pl/
 perukisklep.pl/
-petro-canada.ca/
+petro-canada.ca/
+petshop-livestrong.com/
 peuterey.com.filoblu.com/
 pgtrombone.com/
 pharmacies-medbase.ch/
@@ -2483,7 +2494,8 @@ sm3na.com/
 sp-seller.webkul.com/
 spacex.com/
 	spard.dk/
-sparda-bank-hamburg.de/
+sparda-bank-hamburg.de/
+spark-interfax.com/
 spark-interfax.ru/
 sparkasse-dortmund.de/
 sparkasse-duisburg.de/
@@ -2601,7 +2613,8 @@ stzkrf.ru/
 takisawa-stanki.ru/
 talent-dictionary.com/
 talent-soft.com/
-talentsoft.com/
+talentsoft.com/
+tamano-keirin.jp/
 tara-medium.com/
 target.com.au/
 tarotvanrob.com/
@@ -2858,7 +2871,8 @@ vmlyr.com/
 vmwire.com/
 vocabdb.com/
 vocadb.com/
-vodnik-tomas.kz/
+vodnik-tomas.kz/ 
+volkswagen-climatepartner.com/
 volvocaravilon.ru/ 
 vous-satisfaire-vertbaudet.fr/	
 vp4.me/
@@ -2940,7 +2954,9 @@ webme.com/
 wuschools.com/
 www.montevideo-office.com.uy/
 www.nasu-lahayu.com/
-wyhpartnership.co.uk/
+wyhpartnership.co.uk/
+wynnnovas.com/
+wynnovas.com/
 wypartnership.co.uk/
 x-plarium.com/
 x-trojmiasto.pl/
