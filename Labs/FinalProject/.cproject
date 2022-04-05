@@ -87,7 +87,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="Lab6_BLEmain.c|Lab6_OLEDmain.c|Lab6_OLEDmain2.c|Lab8_main.c|main.c|Bumpmain.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Lab6_BLEmain.c|Lab6_OLEDmain.c|Lab6_OLEDmain2.c|Lab8_main.c|Bumpmain.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

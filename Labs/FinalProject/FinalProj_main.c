@@ -19,7 +19,7 @@
 
 #include <stdbool.h>
 
-#include "../inc/BumpMachine.h"
+//#include "../inc/BumpMachine.h"
 
 #include "../inc/BumpInt.h"
 
@@ -29,9 +29,8 @@
 
 #define CR 0x0D
 
-
 uint8_t BT_ByteData; // 8-bit user data from the phone
-extern volatile uint16_t        counts;
+extern volatile uint16_t counts;
 extern volatile bool wasInterrupt;
 extern volatile uint8_t direction;
 //extern volatile uint8_t Interupt;
@@ -51,33 +50,41 @@ void MoveRobot(uint8_t command) {
    // or turn left according to the command received from the BLE
 
    if (command == 1) {
-      Motor_Forward(18999, 18200);
+      Motor_Forward(21999, 21200);
+      SSD1306_SetCursor(0, 0);
+      SSD1306_Clear();
+      SSD1306_OutString("FTL DRIVE ENGAGED ");
+   }
+
+   if (command == 2) {
+      SSD1306_SetCursor(0, 0);
+      SSD1306_Clear();
+      SSD1306_OutString("Turning Right... ");
+      Motor_Right(9999, 9999);
+      Clock_Delay1ms(500);
+     /* Motor_Stop();
+      SSD1306_SetCursor(0, 0);
+      SSD1306_Clear();
+      SSD1306_OutString("DONE!"); */
+      Motor_Forward(9999, 9200);
       SSD1306_SetCursor(0, 0);
       SSD1306_Clear();
       SSD1306_OutString("ZOOOOOM!!! ");
    }
-
-   if (command == 2) {
-       SSD1306_SetCursor(0, 0);
-       SSD1306_Clear();
-       SSD1306_OutString("Turning Right... ");
-      Motor_Right(9999, 9999);
-      Clock_Delay1ms(500);
-      Motor_Stop();
+   if (command == 3) {
       SSD1306_SetCursor(0, 0);
       SSD1306_Clear();
-      SSD1306_OutString("DONE!");
-   }
-   if (command == 3) {
-       SSD1306_SetCursor(0, 0);
-       SSD1306_Clear();
-       SSD1306_OutString("Turning Left... ");
+      SSD1306_OutString("Turning Left... ");
       Motor_Left(9999, 9999);
       Clock_Delay1ms(500);
-      Motor_Stop();
+     /* Motor_Stop();
       SSD1306_SetCursor(0, 0);
       SSD1306_Clear();
-      SSD1306_OutString("DONE!");
+      SSD1306_OutString("DONE!");*/
+      Motor_Forward(9999, 9200);
+      SSD1306_SetCursor(0, 0);
+      SSD1306_Clear();
+      SSD1306_OutString("ZOOOOOM!!! ");
    }
    if (command == 4) {
       Motor_Backward(14999, 14200);
@@ -128,117 +135,117 @@ int main(void) {
 
    ////////////////////////////////////////////////
    ////////////////////////////////////////////////
-   Clock_Init48MHz();                   // set system clock to 48 MHz
+   Clock_Init48MHz(); // set system clock to 48 MHz
    SSD1306_Init(SSD1306_SWITCHCAPVCC);
-     SSD1306_DrawString(0, 0,"--- RSLK 1.1 --------",WHITE);
-     SSD1306_DrawString(0,16,"123456789012345678901",WHITE);
-     SSD1306_DrawString(0,24,"abcdefghijklmnopqrstu",WHITE);
-     SSD1306_DrawString(0,32,"ABCDEFGHIJKLMNOPQRSTU",WHITE);
-     SSD1306_DrawString(0,40,"!@#$%^&*()_+-=",WHITE);
-     SSD1306_DrawString(0,48,"123456789012345678901",WHITE);
-     SSD1306_DrawString(0,56,"vwxyz,./<>?;'\"[]\\{}|",WHITE);
-     SSD1306_DisplayBuffer();
-     Clock_Delay1ms(500);
-     SSD1306_ClearBuffer();
-     SSD1306_DrawFastHLine(0,5,100,WHITE);
-     SSD1306_DrawFastVLine(5,10,25,WHITE);
-     SSD1306_DisplayBuffer();
-     Clock_Delay1ms(500);
-     SSD1306_ClearBuffer();
+   SSD1306_DrawString(0, 0, "--- RSLK 1.1 --------", WHITE);
+   SSD1306_DrawString(0, 16, "123456789012345678901", WHITE);
+   SSD1306_DrawString(0, 24, "abcdefghijklmnopqrstu", WHITE);
+   SSD1306_DrawString(0, 32, "ABCDEFGHIJKLMNOPQRSTU", WHITE);
+   SSD1306_DrawString(0, 40, "!@#$%^&*()_+-=", WHITE);
+   SSD1306_DrawString(0, 48, "123456789012345678901", WHITE);
+   SSD1306_DrawString(0, 56, "vwxyz,./<>?;'\"[]\\{}|", WHITE);
+   SSD1306_DisplayBuffer();
+   Clock_Delay1ms(500);
+   SSD1306_ClearBuffer();
+   SSD1306_DrawFastHLine(0, 5, 100, WHITE);
+   SSD1306_DrawFastVLine(5, 10, 25, WHITE);
+   SSD1306_DisplayBuffer();
+   Clock_Delay1ms(500);
+   SSD1306_ClearBuffer();
 
-       SSD1306_Clear();
+   SSD1306_Clear();
    /////////////////////////////////////////////////////////////
    /////////////////////////////////////////////////////////////
-       enum motor_states {
-          off,
-          BLE,
-          forward,
-          right,
-          left,
-          backward
-       }
-       state, prevState;
-       state = off; //start state
-       prevState = !off; //used to know when the state has changed
-       uint16_t stateTimer; //used to stay in a state
-       bool isNewState; //true when the state has switched
+   enum motor_states {
+      off,
+      BLE,
+      forward,
+      right,
+      left,
+      backward
+   }
+   state, prevState;
+   state = off; //start state
+   prevState = !off; //used to know when the state has changed
+   uint16_t stateTimer; //used to stay in a state
+   bool isNewState; //true when the state has switched
    while (1) {
       AP_BackgroundProcess(); // handle incoming SNP frames
 
       isNewState = (state != prevState);
-            prevState = state; //save state for next time
-            switch (state) {
-            case off:
-               state = BLE;
+      prevState = state; //save state for next time
+      switch (state) {
+      case off:
+         state = BLE;
 
-               break;
-            case BLE:
-               if (wasInterrupt) {
-                  SSD1306_SetCursor(0, 0);
-                  SSD1306_Clear();
-                  SSD1306_OutString("OUCH!!!");
+         break;
+      case BLE:
+         if (wasInterrupt) {
+            SSD1306_SetCursor(0, 0);
+            SSD1306_Clear();
+            SSD1306_OutString("OUCH!!!");
 
-                  state = backward;
-                  wasInterrupt = false;
-               }
+            state = backward;
+            wasInterrupt = false;
+         }
 
+         break;
 
-               break;
+      case forward:
+          Motor_Forward(18999, 18200);
+          SSD1306_SetCursor(0, 0);
+          SSD1306_Clear();
+          SSD1306_OutString("ZOOOOOM!!! ");
 
-            case forward:
-               Motor_Forward(14999, 14200);
-               Clock_Delay1ms(3000);
-               Motor_Stop();
+         state = BLE;
 
-               state = BLE;
+         break;
 
-               break;
+      case right:
+         if (isNewState) {
+            stateTimer = 0;
+         }
+         SSD1306_Clear();
+         Motor_Right(14999, 14200);
+         Clock_Delay1ms(750);
+         state = forward;
 
-            case right:
-               if (isNewState) {
-                  stateTimer = 0;
-               }
-               SSD1306_Clear();
-               Motor_Right(14999, 14200);
-               Clock_Delay1ms(750);
-               state = forward;
+         break;
 
-               break;
+      case left:
+         if (isNewState) {
+            stateTimer = 0;
+         }
+         SSD1306_Clear();
+         Motor_Left(14999, 14200);
+         // stateTimer++;
+         Clock_Delay1ms(750);
 
-            case left:
-               if (isNewState) {
-                  stateTimer = 0;
-               }
-               SSD1306_Clear();
-               Motor_Left(14999, 14200);
-               // stateTimer++;
-               Clock_Delay1ms(750);
+         state = forward;
 
-               state = forward;
+         break;
 
-               break;
+      case backward:
 
-            case backward:
+         Motor_Backward(14999, 14200);
+         Clock_Delay1ms(3000);
 
-               Motor_Backward(14999, 14200);
-               Clock_Delay1ms(3000);
+         if (direction == 0) {
+            state = left;
+            wasInterrupt = false;
 
-               if (direction == 0) {
-                  state = left;
-                  wasInterrupt = false;
+         }
+         if (direction == 1) {
+            state = right;
+            wasInterrupt = false;
+         }
 
-               }
-               if (direction == 1) {
-                  state = right;
-                  wasInterrupt = false;
-               }
-
-               break;
-            default: state = BLE;
-            } //switch
-            Clock_Delay1ms(20);
+         break;
+      default:
+         state = BLE;
+      } //switch
+      Clock_Delay1ms(20);
 
    } //while(1)
-
 
 }
