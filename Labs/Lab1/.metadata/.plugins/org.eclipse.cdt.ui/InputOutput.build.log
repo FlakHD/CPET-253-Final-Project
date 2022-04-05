@@ -1,8 +1,0 @@
-
-**** Build of configuration Debug for project InputOutput ****
-
-"C:\\ti\\ccs1040\\ccs\\utils\\bin\\gmake" -k -j 20 all -O 
- 
-gmake[1]: 'InputOutput.out' is up to date.
-
-**** Build Finished ****

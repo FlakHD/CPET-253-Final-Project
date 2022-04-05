@@ -1,12 +1,12 @@
 /*
-*Name: Kenzie Moore
-* Program: Electrical Engineering Technology
-* Year: 3rd year
-* Class: Microcontroller Systems
-* Section: CPET 253
-* Exercise: Lab 5 Prelab
-* Date : 2/12/2022
-*/
+ *Name: Kenzie Moore
+ * Program: Electrical Engineering Technology
+ * Year: 3rd year
+ * Class: Microcontroller Systems
+ * Section: CPET 253
+ * Exercise: Lab 5 Prelab
+ * Date : 2/12/2022
+ */
 // BumpInt.c
 // Runs on MSP432, interrupt version
 // Provide low-level functions that interface bump switches on the robot.
@@ -48,97 +48,103 @@ policies, either expressed or implied, of the FreeBSD Project.
 */
 
 // Negative logic bump sensors
-#define bump5  0x80// P4.7 Bump5, left side of robot
-#define bump4  0x40// P4.6 Bump4
-#define bump3  0x20// P4.5 Bump3
-#define bump2  0x08// P4.3 Bump2
-#define bump1  0x04// P4.2 Bump1
-#define bump0  0x01// P4.0 Bump0, right side of robot
+#define bump5 0x80 // P4.7 Bump5, left side of robot
+#define bump4 0x40 // P4.6 Bump4
+#define bump3 0x20 // P4.5 Bump3
+#define bump2 0x08 // P4.3 Bump2
+#define bump1 0x04 // P4.2 Bump1
+#define bump0 0x01 // P4.0 Bump0, right side of robot
 
 #include <stdint.h>
+
 #include <stdbool.h>
+
 #include "msp.h"
+
 #include "..\inc\Clock.h"
+
 #include "..\inc\CortexM.h"
 
 // Initialize Bump sensors
 
 // pins 7,6,5,3,2,0
 // Interrupt on falling edge (on touch)
-volatile bool        wasInterrupt = false;
-volatile uint16_t        counts =0;
-volatile uint8_t        direction = 2;
+volatile bool wasInterrupt = false;
+volatile uint16_t counts = 0;
+volatile uint8_t direction = 2;
+volatile uint8_t Interupt = 0;
 
-void PinInit(void){
-    P4DIR &= ~0xED; // Make six Port 4 pins inputs
-    P4REN |= 0xED; // Activate interface pullup
-    P4OUT |= 0xED; // put 0 in pin positions to turn on pull up resistor
-    P4SEL0 &= ~0xED;          //use P4.7,6,5,3,2,0 as GPIO
-    P4SEL1 &= ~0xED;
-    return;
+void PinInit(void) {
+   P4DIR &= ~0xED; // Make six Port 4 pins inputs
+   P4REN |= 0xED; // Activate interface pullup
+   P4OUT |= 0xED; // put 0 in pin positions to turn on pull up resistor
+   P4SEL0 &= ~0xED; //use P4.7,6,5,3,2,0 as GPIO
+   P4SEL1 &= ~0xED;
+   return;
 }
 
-void BumpInt_Init(void){
-    P4IE |= 0xED; //enables interrupt on pins 7,6,5,3,2,0
-    P4IES |= 0xED; //sets falling edge edge
-    NVIC->ISER[1]= 0x40; //enables port 4 interrupts
+void BumpInt_Init(void) {
+   P4IE |= 0xED; //enables interrupt on pins 7,6,5,3,2,0
+   P4IES |= 0xED; //sets falling edge edge
+   NVIC -> ISER[1] = 0x40; //enables port 4 interrupts
 
-
-    P4IFG &= ~0xED; //clears flag if button was already pushed
-    EnableInterrupts();       //global interrupt enable
-    return;
+   P4IFG &= ~0xED; //clears flag if button was already pushed
+   EnableInterrupts(); //global interrupt enable
+   return;
 
 }
-
-
 
 // triggered on touch, falling edge
-void PORT4_IRQHandler(void){
-    static uint16_t status = 0;
-    status = P4IV; //read current state of switches
-                if(status == 0x02){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 0;
-                    counts += 3;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                if(status == 0x06){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 0;
-                    counts += 2;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                if(status == 0x08){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 0;
-                    counts += 1;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                if(status == 0x0C){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 1;
-                    counts -= 1;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                if(status == 0x0E){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 1;
-                    counts -= 2;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                if(status == 0x10){
-                    wasInterrupt = true;//tells main about interrupt
-                    direction = 1;
-                    counts -= 3;
-                    P4IFG &= 0x00;
-                    return;
-                }
-                return;
+void PORT4_IRQHandler(void) {
+   static uint16_t status = 0;
+   status = P4IV; //read current state of switches
+   if (status == 0x02) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 0;
+      counts += 3;
+      P4IFG &= 0x00;
+      return;
+   }
+   if (status == 0x06) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 0;
+      counts += 2;
+      P4IFG &= 0x00;
+      return;
+   }
+   if (status == 0x08) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 0;
+      counts += 1;
+      P4IFG &= 0x00;
+      return;
+   }
+   if (status == 0x0C) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 1;
+      counts -= 1;
+      P4IFG &= 0x00;
+      return;
+   }
+   if (status == 0x0E) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 1;
+      counts -= 2;
+      P4IFG &= 0x00;
+      return;
+   }
+   if (status == 0x10) {
+      wasInterrupt = true; //tells main about interrupt
+      Interupt = 1;
+      direction = 1;
+      counts -= 3;
+      P4IFG &= 0x00;
+      return;
+   }
+   return;
 }
-
-

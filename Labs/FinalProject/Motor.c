@@ -4,8 +4,8 @@
 * Year: 3rd year
 * Class: Microcontroller Systems
 * Section: CPET 253
-* Exercise: Lab 8
-* Date : 3/29/2022
+* Exercise: Lab 5 Prelab
+* Date : 2/12/2022
 */
 
 
@@ -127,34 +127,27 @@ void TimerInit(void)
     TA0CCTL3 |= 0x00E0; //Outmode 7: reset/set
     TA0CCTL4 |= 0x00E0;    //Outmode 7: reset/set
 
-
+return;
+}
 //////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////
-// servo timer
-//
-/////////////////////////////////////////////////////////////////
+void Delay(void){
 
-/////////////////////////////////////////////////////////////////////
-// sonic timer
-//
-/////////////////////////////////////////////////////////////////
+        //Now initialize TimerAx for the delay function
+
+
         TA2CTL &= ~0x0030;  //stop the timer
         TA2CTL |= 0x0200; TA2CTL &= ~0x0100;    //choose SMCLK for the clock source
-        TA2CTL |= 0x00C0;    //choose clock divider of 8 : ID = 10
-
-        TA2CCR0 = 56999;                     //
-        TA2R = 0;                      //clear timer
-        TA2CTL |= 0x0020;
-
-        //while(!(TA2CCTL0 & 0x0001)){}
-        //TA2CCTL0 &= ~0x0001; //clear the flag
-        //TA2CTL &= ~0x0030;  //stop the timer
-
+        TA2CTL |= 0x0080; TA2CTL &= ~0x0040;    //choose clock divider of 4 : ID = 10
+        TA2EX0 |= 0x0004; TA2EX0 &= ~0x0003; //choose second clock divider in TAxEX0 of 5, total divide is 20
+        TA2CCR0 = 59999;                     //
+        TA2R = 0;                            //clear timer
+        TA2CTL |= 0x0010;
+        while(!(TA2CCTL0 & 0x0001)){}
+        TA2CCTL0 &= ~0x0001; //clear the flag
+        TA2CTL &= ~0x0030;  //stop the timer
 return;
 }
 /////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////
 // ------------Motor_Forward------------
 // Drive the robot forward by running left and
 // right wheels forward with the given duty

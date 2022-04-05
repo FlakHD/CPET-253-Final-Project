@@ -1,100 +1,109 @@
 #include "msp.h"
+
 #include <stdint.h>
+
 #include <stdbool.h>
+
 #include "..\inc\Clock.h"
+
 #include "..\inc\CortexM.h"
+
 #include "..\inc\BumpInt.h"
+
 #include "..\inc\Motor.h"
 
-extern volatile bool        wasInterrupt;
-extern volatile uint16_t        counts;
-extern volatile uint8_t        direction;
-void BumpTask(void){
+#include "../inc/SSD1306.h"
 
- enum motor_states{off, forward, right, left, backward} state, prevState;
-         state = off;                   //start state
-         prevState = !off;               //used to know when the state has changed
-         uint16_t stateTimer;       //used to stay in a state
-         bool isNewState;           //true when the state has switched
+extern volatile bool wasInterrupt;
+extern volatile uint8_t direction;
+extern volatile uint8_t Interupt;
+void BumpTask(void) {
 
-         while(1){
-                         isNewState = (state != prevState);
-                         prevState = state;  //save state for next time
-                 switch (state) {
-                     case off:
-                          state = forward;
+   enum motor_states {
+      off,
+      BLE,
+      forward,
+      right,
+      left,
+      backward
+   }
+   state, prevState;
+   state = off; //start state
+   prevState = !off; //used to know when the state has changed
+   uint16_t stateTimer; //used to stay in a state
+   bool isNewState; //true when the state has switched
 
-                          break;
+   while (1) {
+      isNewState = (state != prevState);
+      prevState = state; //save state for next time
+      switch (state) {
+      case off:
+         state = BLE;
 
-                          if (isNewState){
-                              stateTimer = 0;
-                          }
+         break;
+      case BLE:
+         if (wasInterrupt) {
+            SSD1306_SetCursor(0, 0);
+            SSD1306_Clear();
+            SSD1306_OutString("OUCH!!!");
 
-                          //stateTimer++;
-                          if(wasInterrupt){
+            state = backward;
+            wasInterrupt = false;
+         }
+         Interupt = 0;
 
-                              state = backward;
-                              wasInterrupt = false;
-                              }
+         break;
 
+      case forward:
+         Motor_Forward(14999, 14200);
+         Clock_Delay1ms(3000);
 
-                          break;
+         state = BLE;
 
-                       case right:
-                           if (isNewState){
-                                    stateTimer = 0;
-                                        }
-                            Motor_Right(14999,14200);
-                            Clock_Delay1ms(100);
-                            state = forward;
+         break;
 
-                           //stateTimer++;
+      case right:
+         if (isNewState) {
+            stateTimer = 0;
+         }
+         SSD1306_Clear();
+         Motor_Right(14999, 14200);
+         Clock_Delay1ms(100);
+         state = forward;
 
-                           //if(stateTimer >=5 ) {//8 or 9
+         break;
 
+      case left:
+         if (isNewState) {
+            stateTimer = 0;
+         }
+         SSD1306_Clear();
+         Motor_Left(14999, 14200);
+         // stateTimer++;
+         Clock_Delay1ms(100);
+         state = forward;
 
-                              //}
-                           break;
+         break;
 
-                       case left:
-                           if (isNewState){
-                               stateTimer = 0;
-                           }
-                           Motor_Left(14999,14200);
-                          // stateTimer++;
-                           Clock_Delay1ms(100);
-                           state = forward;
+      case backward:
 
+         Motor_Backward(14999, 14200);
+         Clock_Delay1ms(100);
 
-                           break;
+         if (direction == 0) {
+            state = left;
+            wasInterrupt = false;
 
-                       case backward:
-                            if (isNewState){
-                                  stateTimer = 0;
-                              }
+         }
+         if (direction == 1) {
+            state = right;
+            wasInterrupt = false;
+         }
+default: state = BLE;
+         break;
+      } //switch
+      Clock_Delay1ms(20);
 
-                             Motor_Backward(14999,14200);
-                             Clock_Delay1ms(100);
-
-
-
-                             if(direction == 0){
-                                 state = left;
-                                 wasInterrupt = false;
-
-                             }
-                             if(direction == 1) {
-                                 state = right;
-                                 wasInterrupt = false;
-                              }
-
-                           break;
-
-                       default: state = off;
-                   } //switch
-                 Clock_Delay1ms(20);
-
-                } //while(1)
-
+   } //while(1)
 
 }
