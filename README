@@ -1,0 +1,7 @@
+Project Dsicription
+My project was to program my microcontroller to incorporate the following: 
+hardware Interrupts via the bump sensors, Ports, SPI-LCD, Bluetooth, Timers, and state machines. 
+My end goal was to control the robot via Bluetooth and have it so that when it bumps into to things it can move away from the objects it bumped into and get into a safe location. 
+After which I would be able to resume control of the robot. For a little humor I decided to print to the LCD things like “OUCH!” and “ZOOOM!!” when it bumps into things and is driving forward.
+
+For full project writeup visit https://bit.ly/3r8W57k
